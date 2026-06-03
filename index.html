@@ -18,11 +18,13 @@
 ============================================================ -->
 <script>
   const FIREBASE_CONFIG = {
-    apiKey: "",
-    authDomain: "",
-    databaseURL: "",   // 例: https://xxxx-default-rtdb.firebaseio.com
-    projectId: "",
-    appId: ""
+    apiKey: "AIzaSyADIXQt30uupIf_1gC7ufPHiakCdVPSxtw",
+    authDomain: "ibusuki-441be.firebaseapp.com",
+    databaseURL: "https://ibusuki-441be-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "ibusuki-441be",
+    storageBucket: "ibusuki-441be.firebasestorage.app",
+    messagingSenderId: "308033841862",
+    appId: "1:308033841862:web:3e71566b5c47652122c5c7"
   };
   // 出発日（カウントダウンの基準）。実際の年に合わせて書き換えてください。
   const TRIP_START = "2026-06-24T00:00:00+09:00";
@@ -41,7 +43,8 @@
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
-  body{font-family:'Zen Kaku Gothic New',sans-serif;background:var(--paper);color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased;padding-bottom:3rem}
+  body{font-family:'Zen Kaku Gothic New',sans-serif;background:var(--paper);color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased;padding-bottom:3rem;overflow-x:hidden}
+  img{max-width:100%}
   .wrap{max-width:520px;margin:0 auto;padding:0 18px}
 
   /* ===== HERO（朝焼けの開聞岳 + カウントダウン）===== */
@@ -159,6 +162,8 @@
   .track .th{font-weight:700;font-size:12.5px;letter-spacing:.06em;display:flex;align-items:center;gap:7px;margin-bottom:8px}
   .track.sea .th{color:var(--sea-deep)}
   .track.sky .th{color:var(--sky)}
+  .track.ember{background:var(--ember-soft);border-color:rgba(192,97,46,.3)}
+  .track.ember .th{color:var(--ember)}
   .track .row{font-size:12.5px;padding:3px 0;display:flex;gap:10px}
   .track .row .t{font-family:'Shippori Mincho',serif;font-weight:600;min-width:48px;color:var(--ink)}
   .track .row .x{color:var(--ink-soft)}
@@ -181,12 +186,12 @@
   .info a{color:var(--sea-deep);font-weight:600;text-decoration:none;border-bottom:1px solid var(--sea)}
 
   /* ===== PHOTO FEATURE（実写ハイライト）===== */
-  .photo-feat{position:relative;border-radius:16px;overflow:hidden;margin-top:18px;border:1px solid var(--line-strong)}
-  .photo-feat img{display:block;width:100%;height:auto}
-  .photo-feat .cap{position:absolute;left:0;right:0;bottom:0;padding:38px 18px 16px;background:linear-gradient(180deg,rgba(22,13,8,0) 0%,rgba(22,13,8,.86) 100%);color:#f7f1e6}
+  .photo-feat{display:block;border-radius:16px;overflow:hidden;margin-top:18px;border:1px solid var(--line-strong);background:#160d08;text-decoration:none}
+  .photo-feat img{display:block;width:100%;height:auto;aspect-ratio:3 / 2;object-fit:cover}
+  .photo-feat .cap{padding:14px 16px 16px;color:#f7f1e6}
   .photo-feat .en{font-family:'Shippori Mincho',serif;font-size:10px;letter-spacing:.32em;color:#eaa471}
-  .photo-feat .t{font-family:'Shippori Mincho',serif;font-weight:700;font-size:23px;letter-spacing:.06em;margin-top:4px}
-  .photo-feat .d{font-size:12px;color:rgba(247,241,230,.85);margin-top:6px;line-height:1.65}
+  .photo-feat .t{font-family:'Shippori Mincho',serif;font-weight:700;font-size:20px;letter-spacing:.06em;margin-top:4px}
+  .photo-feat .d{font-size:12px;color:rgba(247,241,230,.88);margin-top:6px;line-height:1.65}
   footer{text-align:center;margin-top:44px;font-size:11px;color:var(--ink-soft);letter-spacing:.1em;font-family:'Shippori Mincho',serif}
   footer .l{display:inline-block;width:30px;height:1px;background:var(--line-strong);vertical-align:middle;margin:0 10px}
 </style>
@@ -247,7 +252,8 @@
   <div class="members" id="members"></div>
   <div class="legend">
     <span><span class="dot" style="background:var(--sea)"></span>島根組（車・新幹線）</span>
-    <span><span class="dot" style="background:var(--sky)"></span>東京組（空路）</span>
+    <span><span class="dot" style="background:var(--sky)"></span>東京組・純司むぎ（ANA）</span>
+    <span><span class="dot" style="background:var(--ember)"></span>正明（Jetstar）</span>
   </div>
 
   <!-- ============ 昂るポイント ============ -->
@@ -305,7 +311,7 @@
   <!-- DAY 1 -->
   <div class="day">
     <div class="num">24</div>
-    <div class="meta"><div class="date">6月24日</div><div class="dow">火曜日 · 前日移動</div></div>
+    <div class="meta"><div class="date">6月24日</div><div class="dow">水曜日 · 前日移動</div></div>
     <div class="tag">前泊</div>
   </div>
   <div class="tl">
@@ -322,7 +328,7 @@
   <!-- DAY 2 -->
   <div class="day">
     <div class="num">25</div>
-    <div class="meta"><div class="date">6月25日</div><div class="dow">水曜日 · 合流・視察</div></div>
+    <div class="meta"><div class="date">6月25日</div><div class="dow">木曜日 · 合流・視察</div></div>
     <div class="tag">本番1</div>
   </div>
   <div class="split">
@@ -334,10 +340,15 @@
       <div class="row"><span class="t">9:45</span><span class="x">鹿児島中央 着 → 末吉君ピックアップ</span></div>
     </div>
     <div class="track sky">
-      <div class="th">✈ 東京組 ルート</div>
+      <div class="th">✈ 東京組 ルート（純司・むぎ）</div>
       <div class="row"><span class="t">9:40</span><span class="x">鹿児島空港 着（NH2471）</span></div>
       <div class="row"><span class="t">〜10:00</span><span class="x">東課長ピックアップ → 唐船峡へ</span></div>
-      <div class="row"><span class="t">自由</span><span class="x">正明先生は単独行動（昼〜）</span></div>
+    </div>
+    <div class="track ember">
+      <div class="th">🛬 正明先生 ルート（Jetstar）</div>
+      <div class="row"><span class="t">12:50</span><span class="x">成田 第3 発 GK625</span></div>
+      <div class="row"><span class="t">14:55</span><span class="x">鹿児島空港 着 → 指宿へ</span></div>
+      <div class="row"><span class="t">18:30</span><span class="x">こみかんで合流</span></div>
     </div>
   </div>
   <div class="tl" style="margin-top:14px">
@@ -352,15 +363,15 @@
   <!-- DAY 3 -->
   <div class="day">
     <div class="num">26</div>
-    <div class="meta"><div class="date">6月26日</div><div class="dow">木曜日 · 面談・帰路</div></div>
+    <div class="meta"><div class="date">6月26日</div><div class="dow">金曜日 · 面談・帰路</div></div>
     <div class="tag">本番2</div>
   </div>
   <div class="tl">
     <div class="item"><div class="time">早朝</div><div class="ev"><div class="ttl"><span class="ic">♨️</span>砂蒸し温泉</div><div class="desc">砂楽 または ヘルシーランド（露天風呂＋砂ゆり）。</div><div class="who"><span class="badge b-all">6名</span><span class="badge b-ok">予約済</span></div></div></div>
     <div class="item"><div class="time">朝</div><div class="ev"><div class="ttl"><span class="ic">📞</span>開花亭 予約確認</div><div class="desc">純司先生に当日朝に意向確認。</div><div class="who"><span class="badge b-todo">朝に確認</span></div></div></div>
-    <div class="item hl"><div class="time">11:30</div><div class="ev big"><div class="ttl"><span class="ic">🏛</span>市長面談</div><div class="who"><span class="badge b-all">6名</span></div></div></div>
-    <div class="item"><div class="time">〜14:00</div><div class="ev"><div class="ttl"><span class="ic">🚙</span>鹿児島市内へ移動</div><div class="desc">唐船峡から約1時間。末吉君・東課長 各車。</div><div class="who"><span class="badge b-all">6名</span></div></div></div>
-    <div class="item hl"><div class="time">14:00</div><div class="ev big"><div class="ttl"><span class="ic">🥩</span>開花亭 黒豚とんかつ</div><div class="desc">昼食。食後にここで2班に分かれる。</div><div class="who"><span class="badge b-all">6名</span></div></div></div>
+    <div class="item hl"><div class="time">11:30</div><div class="ev big"><div class="ttl"><span class="ic">🏛</span>市長面談</div><div class="desc">正明先生は11:45の便のため不参加。</div><div class="who"><span class="badge b-all">5名</span></div></div></div>
+    <div class="item"><div class="time">〜14:00</div><div class="ev"><div class="ttl"><span class="ic">🚙</span>鹿児島市内へ移動</div><div class="desc">唐船峡から約1時間。末吉君・東課長 各車。</div><div class="who"><span class="badge b-all">5名</span></div></div></div>
+    <div class="item hl"><div class="time">14:00</div><div class="ev big"><div class="ttl"><span class="ic">🥩</span>開花亭 黒豚とんかつ</div><div class="desc">昼食（5名）。食後にここで2班に分かれる。</div><div class="who"><span class="badge b-all">5名</span></div></div></div>
   </div>
   <div class="split" style="margin-top:6px">
     <div class="track sea">
@@ -371,10 +382,16 @@
       <div class="row"><span class="t">19:40</span><span class="x">益田・社宅 帰着</span></div>
     </div>
     <div class="track sky">
-      <div class="th">✈ 東京組 帰路</div>
+      <div class="th">✈ 東京組 帰路（純司・むぎ）</div>
       <div class="row"><span class="t">〜16:30</span><span class="x">東課長が鹿児島空港へ送迎</span></div>
       <div class="row"><span class="t">17:10</span><span class="x">鹿児島空港 着</span></div>
       <div class="row"><span class="t">19:15</span><span class="x">NH630 鹿児島空港 発</span></div>
+    </div>
+    <div class="track ember">
+      <div class="th">🛫 正明先生 帰路（Jetstar）</div>
+      <div class="row"><span class="t">11:45</span><span class="x">指宿駅前 発 → バス → 鹿児島空港</span></div>
+      <div class="row"><span class="t">15:35</span><span class="x">鹿児島空港 発 GK624</span></div>
+      <div class="row"><span class="t">17:30</span><span class="x">成田 第3 着</span></div>
     </div>
   </div>
 
@@ -409,7 +426,7 @@
     <div class="line"><span class="lk">宿泊</span><span>MINATO37（ミナトサンナナ）／指宿・サウナ付き一棟貸切。BBQ利用も可。心と体が整うひととき。</span></div>
     <div class="line"><span class="lk">予約参考</span><a href="https://www.instagram.com/minato.37ibusuki/">@minato.37ibusuki</a></div>
     <div class="line"><span class="lk">島根組</span><span>福岡前泊 → 熊本まで車 → 新幹線。帰路は14時台で熊本→車→益田。</span></div>
-    <div class="line"><span class="lk">東京組</span><span>純司・むぎは往復空路。正明は6/25昼〜自由行動、宿は同じMINATO37。</span></div>
+    <div class="line"><span class="lk">東京組</span><span>純司・むぎはANAで往復（羽田）。正明はJetstarで成田⇄鹿児島（6/25 14:55着／6/26 15:35発）。6/26は11:45に指宿を発つため市長面談・昼食は不参加。宿は全員同じMINATO37。</span></div>
   </div>
 
   <footer><span class="l"></span>明誠高校 指宿視察<span class="l"></span></footer>
