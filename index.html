@@ -159,6 +159,12 @@
   .ev .stay .srow{display:flex;gap:9px;font-size:12px;color:var(--ink-soft);line-height:1.55}
   .ev .stay .srow .sk{min-width:36px;font-weight:700;color:var(--sea-deep)}
   .ev .stay a{color:var(--sea-deep);font-weight:600;text-decoration:none;border-bottom:1px solid var(--sea)}
+  .food-cand{margin-top:14px;background:var(--ember-soft);border:1px solid rgba(192,97,46,.28);border-radius:12px;padding:13px 15px}
+  .food-cand .fh{font-family:'Shippori Mincho',serif;font-weight:700;font-size:13px;color:var(--ember);letter-spacing:.04em;margin-bottom:4px;display:flex;align-items:center;gap:7px}
+  .food-cand .fsub{font-size:11px;color:var(--ink-soft);margin-bottom:8px}
+  .food-cand .fr{font-size:12px;color:var(--ink-soft);padding:6px 0;border-top:1px solid rgba(192,97,46,.18);line-height:1.55}
+  .food-cand .fr b{color:var(--ink);font-weight:700}
+  .food-cand .fr a{color:var(--ember);font-weight:600;text-decoration:none;border-bottom:1px solid rgba(192,97,46,.5);margin-left:4px;white-space:nowrap}
   .split{display:flex;flex-direction:column;gap:10px;margin-top:8px}
   .track{border-radius:12px;padding:12px 14px;border:1px solid var(--line)}
   .track.sea{background:var(--sea-soft);border-color:rgba(29,122,140,.3)}
@@ -271,7 +277,7 @@
     <div class="card warm"><div class="ic">♨️</div><div class="t">砂蒸し温泉</div><div class="d">波の音を聞きながら砂に埋もれる。汗と一緒に、疲れも流す。</div><span class="tag">予約済</span></div>
     <div class="card cool"><div class="ic">🍜</div><div class="t">そうめん流し</div><div class="d">唐船峡の湧水で冷たく。回るそうめんを奪い合う昼。</div></div>
     <div class="card warm"><div class="ic">🧖</div><div class="t">MINATO37 一棟貸切＋サウナ</div><div class="d">サウナ付きの一棟をまるごと6人で。BBQも、整いも、語らいも。指宿の夜を独り占め。</div><span class="tag">確定</span></div>
-    <div class="card"><div class="ic">🍻</div><div class="t">こみかん 貸切</div><div class="d">店ごと6人で。気兼ねなく、指宿の夜が始まる。</div><span class="tag">確定</span></div>
+    <div class="card"><div class="ic">🍻</div><div class="t">こみかん 懇親会</div><div class="d">指宿市の関係者との懇親を深める席。蒸し料理と出汁が抜群で、茶碗蒸し・しゅうまい・鹿児島名物の鳥刺しが名物。</div><span class="tag">確定</span></div>
     <div class="card"><div class="ic">🍸</div><div class="t">bar 正</div><div class="d">〆の一杯。指宿の夜は、まだ長い。</div><span class="tag">予約済</span></div>
     <div class="card cool"><div class="ic">🥩</div><div class="t">黒豚とんかつ 開花亭</div><div class="d">帰る前の、ごほうび。最後まで指宿を味わい尽くす。</div></div>
   </div>
@@ -320,19 +326,26 @@
   </div>
   <div class="tl">
     <div class="item">
-      <div class="time">午後</div>
+      <div class="time">17:00</div>
       <div class="ev">
         <div class="ttl">🚗 社宅 出発 → 福岡 前泊</div>
-        <div class="desc">新小田・大城・神永の3名で出発。翌朝の負担を抑えるため福岡市で1泊。</div>
+        <div class="desc">新小田・大城・神永の3名。業務終了直後（17:00）に出発し、福岡市で前泊。車で移動。</div>
         <div class="who"><span class="badge b-sea">島根組</span><span class="badge b-ok">予約済</span></div>
         <div class="stay">
           <div class="srow"><span class="sk">宿</span><span>福岡市博多区比恵町 11-34（〒812-0014）　<a href="https://www.google.com/maps/search/?api=1&amp;query=11-34+Hiemachi+Hakata+Ward+Fukuoka+812-0014">地図で開く</a></span></div>
-          <div class="srow"><span class="sk">最寄</span><span>地下鉄空港線「東比恵駅」2番出口から徒歩10分</span></div>
-          <div class="srow"><span class="sk">道順</span><span>2番出口を出て御笠川の方向へ約8分 → 左手「博多エステートビル」と餃子店「博多はる」の間を左折 → 約2分、左手の10階建ての黒いマンション（エントランス前に駐輪場あり）</span></div>
           <div class="srow"><span class="sk">予約</span><span>確認コード HMX2EJTQR2</span></div>
         </div>
       </div>
     </div>
+  </div>
+
+  <div class="food-cand">
+    <div class="fh">🍴 前泊の夜ごはん候補</div>
+    <div class="fsub">宿（比恵町）から徒歩圏。福岡の夜を軽く一杯。</div>
+    <div class="fr"><b>海千舘</b>（居酒屋）　宿の目の前。地元客で賑わい、新鮮な刺身・もつ鍋・あじフライ。<a href="https://maps.google.com/?cid=14403633963951732875">地図</a></div>
+    <div class="fr"><b>もつ鍋 永正 筑紫口店</b>　評価4.7の博多もつ鍋。ふわっと柔らかいもつ。要予約。<a href="https://maps.google.com/?cid=14243761817167933788">地図</a></div>
+    <div class="fr"><b>博多もつ鍋 前田屋 総本店</b>　濃厚な味噌だしが看板の人気店。<a href="https://maps.google.com/?cid=14706449575828127848">地図</a></div>
+    <div class="fr"><b>博多一双 本店</b>　泡立つ豚骨ラーメン。深夜0時まで。〆の一杯に。<a href="https://maps.google.com/?cid=14997510692567609889">地図</a></div>
   </div>
 
   <!-- DAY 2 -->
@@ -344,10 +357,10 @@
   <div class="split">
     <div class="track sea">
       <div class="th">⛩ 島根組 ルート</div>
-      <div class="row"><span class="t">7:20</span><span class="x">福岡 出発（車）</span></div>
-      <div class="row"><span class="t">8:20</span><span class="x">熊本駅 着・駐車</span></div>
-      <div class="row"><span class="t">9:05</span><span class="x">熊本発 新幹線みずほ</span></div>
-      <div class="row"><span class="t">9:45</span><span class="x">鹿児島中央 着 → 末吉君ピックアップ</span></div>
+      <div class="row"><span class="t">8:00</span><span class="x">宿 出発 → 博多駅へ</span></div>
+      <div class="row"><span class="t">8:30</span><span class="x">博多発 みずほ601号</span></div>
+      <div class="row"><span class="t">9:46</span><span class="x">鹿児島中央 着 → 末吉君ピックアップ</span></div>
+      <div class="row"><span class="t">〜11:30</span><span class="x">唐船峡へ（そうめん流しで合流）</span></div>
     </div>
     <div class="track sky">
       <div class="th">✈ 東京組 ルート（純司・むぎ）</div>
@@ -365,7 +378,7 @@
     <div class="item hl"><div class="time">11:30</div><div class="ev big"><div class="ttl"><span class="ic">🍜</span>そうめん流し（唐船峡）</div><div class="desc">開聞仙田77・唐船峡。両班ここで合流。</div><div class="who"><span class="badge b-all">5名 集合</span></div></div></div>
     <div class="item"><div class="time">13:30</div><div class="ev"><div class="ttl"><span class="ic">🏫</span>指宿商業学校 見学</div><div class="who"><span class="badge b-all">5名</span></div></div></div>
     <div class="item"><div class="time">15:30</div><div class="ev"><div class="ttl"><span class="ic">💬</span>教育長・校長 意見交換</div><div class="who"><span class="badge b-all">5名</span></div></div></div>
-    <div class="item hl"><div class="time">18:30</div><div class="ev big"><div class="ttl"><span class="ic">🍻</span>こみかん（懇親会）</div><div class="desc">店舗 貸切。正明先生 合流。</div><div class="who"><span class="badge b-all">6名 全員</span><span class="badge b-ok">貸切</span></div></div></div>
+    <div class="item hl"><div class="time">18:30</div><div class="ev big"><div class="ttl"><span class="ic">🍻</span>こみかん（懇親会）</div><div class="desc">指宿市の関係者との懇親会。正明先生 合流。蒸し料理と出汁が自慢で、茶碗蒸し・しゅうまい・鳥刺しが名物。</div><div class="who"><span class="badge b-all">明誠 6名 合流</span><span class="badge b-ok">指宿市と懇親</span></div></div></div>
     <div class="item"><div class="time">21:30</div><div class="ev"><div class="ttl"><span class="ic">🍸</span>bar 正</div><div class="who"><span class="badge b-all">6名</span><span class="badge b-ok">予約済</span></div></div></div>
     <div class="item"><div class="time">深夜</div><div class="ev"><div class="ttl"><span class="ic">🏠</span>MINATO37 宿泊</div><div class="desc">サウナ付き 一棟貸切。</div><div class="who"><span class="badge b-all">6名</span><span class="badge b-ok">一棟貸切</span></div></div></div>
   </div>
@@ -386,10 +399,10 @@
   <div class="split" style="margin-top:6px">
     <div class="track sea">
       <div class="th">⛩ 島根組 帰路</div>
-      <div class="row"><span class="t">〜16:30</span><span class="x">末吉君が鹿児島中央駅へ送迎</span></div>
-      <div class="row"><span class="t">14時台</span><span class="x">鹿児島中央発 新幹線</span></div>
-      <div class="row"><span class="t">15:10</span><span class="x">熊本着・車回収</span></div>
-      <div class="row"><span class="t">19:40</span><span class="x">益田・社宅 帰着</span></div>
+      <div class="row"><span class="t">〜14:00</span><span class="x">末吉君が鹿児島中央駅へ送迎</span></div>
+      <div class="row"><span class="t">14:17</span><span class="x">鹿児島中央発 さくら760号</span></div>
+      <div class="row"><span class="t">15:43</span><span class="x">博多着 → 車回収</span></div>
+      <div class="row"><span class="t">〜19:30</span><span class="x">益田・社宅 帰着</span></div>
     </div>
     <div class="track sky">
       <div class="th">✈ 東京組 帰路（純司・むぎ）</div>
@@ -435,7 +448,7 @@
     <h3>宿泊 · 連絡先</h3>
     <div class="line"><span class="lk">宿泊</span><span>MINATO37（ミナトサンナナ）／指宿・サウナ付き一棟貸切。BBQ利用も可。心と体が整うひととき。</span></div>
     <div class="line"><span class="lk">予約参考</span><a href="https://www.instagram.com/minato.37ibusuki/">@minato.37ibusuki</a></div>
-    <div class="line"><span class="lk">島根組</span><span>福岡前泊 → 熊本まで車 → 新幹線。帰路は14時台で熊本→車→益田。</span></div>
+    <div class="line"><span class="lk">島根組</span><span>福岡前泊 → 博多発 みずほ601号（8:30→鹿児島中央9:46）。帰路は鹿児島中央14:17発 さくら760号→博多15:43着→車で益田へ。</span></div>
     <div class="line"><span class="lk">東京組</span><span>純司・むぎはANAで往復（羽田）。正明はJetstarで成田⇄鹿児島（6/25 14:55着／6/26 15:35発）。6/26は11:45に指宿を発つため市長面談・昼食は不参加。宿は全員同じMINATO37。</span></div>
   </div>
 
