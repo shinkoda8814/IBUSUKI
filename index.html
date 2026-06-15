@@ -165,6 +165,18 @@
   .food-cand .fr{font-size:12px;color:var(--ink-soft);padding:6px 0;border-top:1px solid rgba(192,97,46,.18);line-height:1.55}
   .food-cand .fr b{color:var(--ink);font-weight:700}
   .food-cand .fr a{color:var(--ember);font-weight:600;text-decoration:none;border-bottom:1px solid rgba(192,97,46,.5);margin-left:4px;white-space:nowrap}
+  .poll{margin-top:12px;background:var(--paper-card);border:1px solid var(--line);border-radius:12px;padding:14px 15px}
+  .poll .ph{font-family:'Shippori Mincho',serif;font-weight:700;font-size:13px;color:var(--ink);letter-spacing:.04em;margin-bottom:3px;display:flex;align-items:center;gap:7px}
+  .poll .psub{font-size:11px;color:var(--ink-soft);margin-bottom:10px}
+  .poll .prow{display:flex;align-items:center;gap:8px;padding:7px 0;border-top:1px solid var(--line)}
+  .poll .prow:first-of-type{border-top:none}
+  .poll .pname{font-family:'Shippori Mincho',serif;font-weight:600;font-size:13px;min-width:48px;color:var(--ink)}
+  .poll .pbtns{display:flex;gap:6px;margin-left:auto}
+  .poll .pb{font-size:12px;font-weight:700;padding:5px 13px;border-radius:999px;border:1px solid var(--line-strong);background:var(--paper);cursor:pointer;color:var(--ink-soft);transition:.15s}
+  .poll .pb.miso.on{background:#f6ead2;border-color:#9a6a14;color:#9a6a14}
+  .poll .pb.shio.on{background:var(--sea-soft);border-color:var(--sea);color:var(--sea-deep)}
+  .poll .tally{font-size:12px;color:var(--ink-soft);margin-top:10px;padding-top:8px;border-top:1px solid var(--line)}
+  .poll .tally b{color:var(--ink)}
   .split{display:flex;flex-direction:column;gap:10px;margin-top:8px}
   .track{border-radius:12px;padding:12px 14px;border:1px solid var(--line)}
   .track.sea{background:var(--sea-soft);border-color:rgba(29,122,140,.3)}
@@ -376,8 +388,16 @@
     <div class="fsub">もつ鍋 ながまさ（永正）筑紫口店 ／ 博多駅東・宿から徒歩圏</div>
     <div class="fr"><b>日時</b>　6月24日（水）21:00　／　<b>人数</b> 3名（島根組）</div>
     <div class="fr"><b>コース</b>　Bコース 5,500円（税込・お一人様）。100分飲み放題付・全11品。</div>
+    <div class="fr"><b>お品書き</b>　本日のお寿司／イカ活き造り（入荷なき時は馬刺し）／ごまさば／博多地鶏もも焼き／さつま揚げ／もつ鍋（白味噌 or 塩）／ちゃんぽん／デザート 黒蜜大福</div>
     <div class="fr"><b>予約番号</b>　SDQ455041　／　<b>店TEL</b> 092-472-3808</div>
     <div class="fr"><b>所在地</b>　福岡市博多区博多駅東2-7-27 TERASO　<a href="https://www.hotpepper.jp/strJ003450298/">店舗ページ</a></div>
+  </div>
+
+  <div class="poll">
+    <div class="ph">🍲 もつ鍋アンケート（島根組）</div>
+    <div class="psub">ながまさのもつ鍋、白味噌 or 塩？ 各自タップで選択（変更可）</div>
+    <div id="motsu-rows"></div>
+    <div class="tally" id="motsu-tally"></div>
   </div>
 
   <!-- DAY 2 -->
@@ -648,6 +668,33 @@ store.sub("status", v=>{
     store.update("status/"+b.dataset.k,{state:ns, by:ME||"", ts:store.now()});
   });
 });
+
+/* ---------- もつ鍋アンケート（島根組のみ） ---------- */
+const MOTSU_MEMBERS = ['新小田','大城','神永'];
+let motsuVotes = {};
+function renderMotsu(){
+  const rowsEl=document.getElementById('motsu-rows'); if(!rowsEl) return;
+  rowsEl.innerHTML = MOTSU_MEMBERS.map(n=>{
+    const v=motsuVotes[n];
+    return '<div class="prow"><span class="pname">'+n+'</span><span class="pbtns">'+
+      '<button class="pb miso'+(v==='miso'?' on':'')+'" data-n="'+n+'" data-c="miso">白味噌</button>'+
+      '<button class="pb shio'+(v==='shio'?' on':'')+'" data-n="'+n+'" data-c="shio">塩</button>'+
+      '</span></div>';
+  }).join('');
+  rowsEl.querySelectorAll('.pb').forEach(b=>b.onclick=()=>{
+    store.update('motsunabe', { [b.dataset.n]: b.dataset.c });
+  });
+  const miso=MOTSU_MEMBERS.filter(n=>motsuVotes[n]==='miso');
+  const shio=MOTSU_MEMBERS.filter(n=>motsuVotes[n]==='shio');
+  const yet=MOTSU_MEMBERS.filter(n=>!motsuVotes[n]);
+  let t='白味噌 <b>'+miso.length+'</b>票　／　塩 <b>'+shio.length+'</b>票';
+  if(yet.length) t+='　（未回答：'+yet.join('・')+'）';
+  else if(miso.length>shio.length) t+='　→ <b>白味噌</b>に決まり';
+  else if(shio.length>miso.length) t+='　→ <b>塩</b>に決まり';
+  else t+='　→ 同数。相談を';
+  document.getElementById('motsu-tally').innerHTML=t;
+}
+store.sub('motsunabe', v=>{ motsuVotes=v||{}; renderMotsu(); });
 </script>
 </body>
 </html>
