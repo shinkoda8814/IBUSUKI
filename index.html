@@ -177,6 +177,22 @@
   .poll .pb.shio.on{background:var(--sea-soft);border-color:var(--sea);color:var(--sea-deep)}
   .poll .tally{font-size:12px;color:var(--ink-soft);margin-top:10px;padding-top:8px;border-top:1px solid var(--line)}
   .poll .tally b{color:var(--ink)}
+  .gallery{margin-top:16px}
+  .gal-up{display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap}
+  .gal-up .upbtn{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:700;padding:9px 18px;border-radius:999px;border:none;background:var(--ember);color:#fff;cursor:pointer}
+  .gal-up .upbtn.disabled{background:var(--sand-deep);cursor:default}
+  .gal-up .upnote{font-size:11px;color:var(--ink-soft)}
+  .gal-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+  .gal-item{position:relative;aspect-ratio:1 / 1;border-radius:10px;overflow:hidden;background:var(--sand);cursor:pointer}
+  .gal-item img{width:100%;height:100%;object-fit:cover;display:block}
+  .gal-item .by{position:absolute;left:0;right:0;bottom:0;font-size:10px;color:#fff;background:linear-gradient(180deg,rgba(0,0,0,0),rgba(0,0,0,.6));padding:12px 6px 4px}
+  .gal-item .del{position:absolute;top:4px;right:4px;width:22px;height:22px;border-radius:50%;border:none;background:rgba(0,0,0,.55);color:#fff;font-size:14px;cursor:pointer;display:none;align-items:center;justify-content:center;line-height:1}
+  .gal-item.mine .del{display:flex}
+  .gal-empty{text-align:center;color:var(--ink-soft);font-size:12.5px;padding:24px 0;font-family:'Shippori Mincho',serif}
+  .lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:200;align-items:center;justify-content:center;padding:20px}
+  .lightbox.open{display:flex}
+  .lightbox img{max-width:100%;max-height:88vh;border-radius:8px}
+  .lightbox .close{position:absolute;top:14px;right:18px;color:#fff;font-size:32px;cursor:pointer;background:none;border:none;line-height:1}
   .split{display:flex;flex-direction:column;gap:10px;margin-top:8px}
   .track{border-radius:12px;padding:12px 14px;border:1px solid var(--line)}
   .track.sea{background:var(--sea-soft);border-color:rgba(29,122,140,.3)}
@@ -507,6 +523,23 @@
     <div class="voices" id="memos"></div>
   </div>
 
+  <div class="sect">
+    <div class="h"><span class="en">GALLERY</span></div>
+    <div class="h" style="margin-top:2px">みんなの写真</div>
+    <div class="lead">旅の写真をみんなで共有。アップすると全員の画面に表示されます。</div>
+    <div class="rule"></div>
+  </div>
+  <div class="gallery">
+    <div class="gal-up">
+      <input type="file" id="gal-input" accept="image/*" multiple style="display:none">
+      <button class="upbtn" id="gal-btn">📷 写真をアップ</button>
+      <span class="upnote" id="gal-note">「あなたは誰？」を選ぶとアップできます</span>
+    </div>
+    <div class="gal-grid" id="gal-grid"></div>
+  </div>
+
+  <div class="lightbox" id="lightbox"><button class="close" id="lb-close">×</button><img id="lb-img" src="" alt="写真"></div>
+
   <div class="info">
     <h3>宿泊 · 連絡先</h3>
     <div class="line"><span class="lk">宿泊</span><span>MINATO37（ミナトサンナナ）／指宿・サウナ付き一棟貸切。BBQ利用も可。心と体が整うひととき。</span></div>
@@ -519,10 +552,9 @@
   <footer><span class="l"></span>明誠高校 指宿視察<span class="l"></span></footer>
 </div>
 
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getDatabase, ref, onValue, push, update, set, serverTimestamp }
-  from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+<script>
 
 /* ---------- メンバー ---------- */
 const MEMBERS = [
@@ -551,14 +583,14 @@ const useFB = !!(FIREBASE_CONFIG.databaseURL && FIREBASE_CONFIG.apiKey);
 let db=null, store;
 
 if(useFB){
-  const app = initializeApp(FIREBASE_CONFIG);
-  db = getDatabase(app);
+  firebase.initializeApp(FIREBASE_CONFIG);
+  db = firebase.database();
   store = {
-    sub(path, cb){ onValue(ref(db, ROOT+"/"+path), s=> cb(s.val())); },
-    push(path, val){ push(ref(db, ROOT+"/"+path), val); },
-    update(path, val){ update(ref(db, ROOT+"/"+path), val); },
-    set(path, val){ set(ref(db, ROOT+"/"+path), val); },
-    now(){ return serverTimestamp(); }
+    sub(path, cb){ db.ref(ROOT+"/"+path).on('value', s=> cb(s.val())); },
+    push(path, val){ db.ref(ROOT+"/"+path).push(val); },
+    update(path, val){ db.ref(ROOT+"/"+path).update(val); },
+    set(path, val){ db.ref(ROOT+"/"+path).set(val); },
+    now(){ return firebase.database.ServerValue.TIMESTAMP; }
   };
   const el=document.getElementById('sync'); el.classList.add('live');
   document.getElementById('sync-text').textContent="6人でリアルタイム共有中";
@@ -601,7 +633,7 @@ function renderMe(){
     return `<button class="opt ${on?'on':''}" data-n="${m.name}" style="${on?`background:${m.color}`:''}">
       <span class="dot" style="background:${on?'#fff':m.color}"></span>${m.name}</button>`;
   }).join("");
-  optsEl.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{ ME=b.dataset.n; localStorage.setItem("ibusuki_me",ME); renderMe(); refreshComposers(); });
+  optsEl.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{ ME=b.dataset.n; localStorage.setItem("ibusuki_me",ME); renderMe(); refreshComposers(); galRefreshBtn(); renderGallery(); });
 }
 function refreshComposers(){
   const ok=!!ME;
@@ -695,6 +727,60 @@ function renderMotsu(){
   document.getElementById('motsu-tally').innerHTML=t;
 }
 store.sub('motsunabe', v=>{ motsuVotes=v||{}; renderMotsu(); });
+
+/* ---------- 写真ギャラリー ---------- */
+let galPhotos = {};
+const galInput = document.getElementById('gal-input');
+const galBtn = document.getElementById('gal-btn');
+function galRefreshBtn(){
+  if(!galBtn) return;
+  const ok = !!ME;
+  galBtn.classList.toggle('disabled', !ok);
+  const note = document.getElementById('gal-note');
+  if(note) note.textContent = ok ? (ME + ' としてアップ') : '「あなたは誰？」を選ぶとアップできます';
+}
+if(galBtn) galBtn.onclick = ()=>{ if(!ME){ alert('上の「あなたは誰？」でお名前を選んでください'); return; } galInput.click(); };
+if(galInput) galInput.onchange = e=>{ handleGalFiles(e.target.files); galInput.value=''; };
+function handleGalFiles(files){
+  [...files].forEach(file=>{
+    if(!file.type || !file.type.startsWith('image/')) return;
+    const reader = new FileReader();
+    reader.onload = ev=>{
+      const img = new Image();
+      img.onload = ()=>{
+        const max = 1200; let w = img.width, h = img.height;
+        if(w>max || h>max){ if(w>=h){ h=Math.round(h*max/w); w=max; } else { w=Math.round(w*max/h); h=max; } }
+        const cv = document.createElement('canvas'); cv.width=w; cv.height=h;
+        cv.getContext('2d').drawImage(img,0,0,w,h);
+        let data;
+        try{ data = cv.toDataURL('image/jpeg', 0.72); }catch(err){ alert('画像の処理に失敗しました'); return; }
+        try{ store.push('photos', { author: ME||'?', data: data, ts: store.now() }); }
+        catch(err){ alert('アップロードに失敗しました（容量オーバーの可能性）'); }
+      };
+      img.src = ev.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+function renderGallery(){
+  const grid = document.getElementById('gal-grid'); if(!grid) return;
+  const entries = Object.entries(galPhotos||{}).filter(([,p])=>p && p.data);
+  if(!entries.length){ grid.innerHTML = '<div class="gal-empty" style="grid-column:1/-1">まだ写真がありません。最初の一枚をどうぞ。</div>'; return; }
+  entries.sort((a,b)=>(b[1].ts||0)-(a[1].ts||0));
+  grid.innerHTML = entries.map(([id,p])=>
+    '<div class="gal-item'+(p.author===ME?' mine':'')+'">'+
+      '<img src="'+p.data+'" alt="写真" loading="lazy" data-id="'+id+'">'+
+      '<div class="by">'+(p.author||'')+'</div>'+
+      '<button class="del" data-id="'+id+'">×</button>'+
+    '</div>'
+  ).join('');
+  grid.querySelectorAll('.gal-item img').forEach(im=>im.onclick=()=>openLightbox(im.src));
+  grid.querySelectorAll('.del').forEach(b=>b.onclick=ev=>{ ev.stopPropagation(); if(confirm('この写真を削除しますか？')) store.set('photos/'+b.dataset.id, null); });
+}
+function openLightbox(src){ const lb=document.getElementById('lightbox'); if(!lb) return; document.getElementById('lb-img').src=src; lb.classList.add('open'); }
+(function(){ const lb=document.getElementById('lightbox'); if(lb){ lb.onclick=e=>{ if(e.target===lb || e.target.id==='lb-close') lb.classList.remove('open'); }; const c=document.getElementById('lb-close'); if(c) c.onclick=()=>lb.classList.remove('open'); } })();
+store.sub('photos', v=>{ galPhotos = v||{}; renderGallery(); });
+galRefreshBtn();
 </script>
 </body>
 </html>
